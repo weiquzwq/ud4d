@@ -6,7 +6,7 @@ if __name__ == '__main__':
     UDevDetector.start()
     print('udev started')
 
-    for _ in range(8):
+    for _ in range(32):
         first_event = UDevDetector.read_event()
         event_object = UEvent(first_event)
         UEventManager.add_event(event_object)

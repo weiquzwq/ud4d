@@ -1,4 +1,5 @@
 from ud4d.logger import logger
+from ud4d.docker_manager import DeviceContainer, DeviceContainerManager
 
 
 class UEvent(object):
@@ -38,12 +39,21 @@ class UEventManager(object):
         action = uevent.get_action_name()
 
         # only 'bind' and 'unbind'
-        if action == 'bind':
+        if action == 'bind' and uevent.is_android():
             cls._event_dict[event_id] = uevent
             logger.info('event id [%s] added', event_id)
+
+            # build docker container
+            container = DeviceContainer(uevent.get_serial_no(), uevent.get_dev_name())
+            DeviceContainerManager.add(container)
+
         elif action == 'unbind' and event_id in cls._event_dict:
+            # remove docker container
+            DeviceContainerManager.remove(cls._event_dict[event_id].get_serial_no())
+
             del cls._event_dict[event_id]
             logger.info('event id [%s] ended', event_id)
+
         else:
             # ignore other events
             pass

@@ -4,5 +4,5 @@ import logzero
 
 
 # log level
-logzero.loglevel(logging.WARN)
+logzero.loglevel(logging.INFO)
 logger.info('logger init finished')
