@@ -1,11 +1,12 @@
-from ud4d.detector import UDevDetector, UEvent, UEventManager
+from ud4d.detector import UDevDetector
+from ud4d.event import UEvent, UEventManager
 
 
 if __name__ == '__main__':
     UDevDetector.start()
     print('udev started')
 
-    for _ in range(16):
+    for _ in range(8):
         first_event = UDevDetector.read_event()
         event_object = UEvent(first_event)
         UEventManager.add_event(event_object)
