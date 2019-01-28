@@ -52,3 +52,9 @@ class DeviceContainerManager(object):
             logger.info('device container [%s] removed', serial_no)
         else:
             logger.warn('device container [%s] not existed', serial_no)
+
+    @classmethod
+    def remove_all(cls):
+        """ remove all containers """
+        for each_serial_no in cls._container_dict:
+            cls.remove(each_serial_no)
