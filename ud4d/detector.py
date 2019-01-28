@@ -6,6 +6,7 @@ from ud4d.logger import logger
 
 
 class UDevDetector(object):
+    """ udevadm process management """
     _process = None
 
     @classmethod
@@ -13,11 +14,13 @@ class UDevDetector(object):
         cls._process = subprocess.Popen(
             [u_config.UDEVADM_PATH, 'monitor', '-u', '--subsystem-match=usb', '--environment'],
             stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
         )
         time.sleep(1)
         assert cls.is_running(), 'udevadm not running'
         logger.info('udevadm process up')
+
+        # ignore unused header
+        cls.read_event()
 
     @classmethod
     def stop(cls):
@@ -35,3 +38,20 @@ class UDevDetector(object):
     @classmethod
     def read_line(cls) -> str:
         return cls._process.stdout.readline().decode(u_config.CHARSET)
+
+    @classmethod
+    def read_event(cls) -> list:
+        event_content = []
+        new_line = cls.read_line().strip()
+        while new_line:
+            event_content.append(new_line)
+            new_line = cls.read_line().strip()
+        return event_content
+
+
+class UEvent(object):
+    """ convert udev info (str) into object """
+    def __init__(self, udev_info_list):
+        for each_arg in udev_info_list[1:]:
+            name, value = each_arg.split('=')
+            self.__dict__[name] = value
