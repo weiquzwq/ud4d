@@ -1,14 +1,28 @@
-from ud4d.detector import UDevDetector, UEvent
-from ud4d.logger import logger
+from ud4d.detector import UDevDetector, UEvent, UEventManager
 
 
 if __name__ == '__main__':
     UDevDetector.start()
-    logger.info('udev started')
+    print('udev started')
 
-    first_event = UDevDetector.read_event()
-    logger.info(first_event)
-    logger.info(UEvent(first_event).ACTION)
+    for _ in range(16):
+        first_event = UDevDetector.read_event()
+        event_object = UEvent(first_event)
+        UEventManager.add_event(event_object)
+
+        action_name = event_object.get_action_name()
+        # less log
+        if action_name in ('bind', 'unbind'):
+            dev_name = event_object.get_dev_name()
+            event_id = event_object.get_event_id()
+            print({
+                'event id': event_id,
+                'action': action_name,
+                'dev name': dev_name,
+            })
+
+            current_event_dict = UEventManager.get_event_dict()
+            print(current_event_dict)
 
     UDevDetector.stop()
-    logger.info('udev stopped')
+    print('udev stopped')
