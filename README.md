@@ -1,11 +1,14 @@
 # ud4d
 
-USB Device Detector for Docker usage. Work on Linux only because of [cgroups](https://en.wikipedia.org/wiki/Cgroups).
+USB Device Detector for Docker usage. Support Linux only because of [cgroups](https://en.wikipedia.org/wiki/Cgroups).
 
 ## Why
 
+![adb](pics/adb.svg)
+
 - Build for sharing devices among docker containers.
-- Split `/dev/bus/usb` into pieces, for better control.
+- Split `/dev/bus/usb` into pieces, for better control, in different container.
+- By `volumes-from`, other (upper) container can operate android devices via these containers.
 
 ## How it works
 
