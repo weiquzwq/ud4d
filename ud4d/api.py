@@ -30,8 +30,9 @@ def start_ud4d():
     def inner():
         UDevDetector.start()
         while UD4D_STATUS:
-            first_event = UDevDetector.read_event()
-            event_object = UEvent(first_event)
+            event_content = UDevDetector.read_event()
+            logger.info(','.join(event_content))
+            event_object = UEvent(event_content)
             UEventManager.add_event(event_object)
         UDevDetector.stop()
 

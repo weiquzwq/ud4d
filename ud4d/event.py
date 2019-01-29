@@ -38,8 +38,9 @@ class UEventManager(object):
         event_id = uevent.get_event_id()
         action = uevent.get_action_name()
 
-        # only 'bind' and 'unbind'
-        if action == 'bind' and uevent.is_android():
+        # only 'add' and 'unbind'
+        # todo: sometimes 'bind' does not appear ???
+        if action == 'add' and uevent.is_android():
             cls._event_dict[event_id] = uevent
             logger.info('event id [%s] added', event_id)
 
