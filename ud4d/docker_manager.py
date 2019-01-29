@@ -3,7 +3,6 @@ import docker
 from ud4d import config as u_config
 from ud4d.logger import logger
 
-
 # device image name
 device_image_name = u_config.DEVICE_IMAGE_NAME
 logger.info('device image name: %s', device_image_name)
@@ -21,6 +20,7 @@ except docker.errors.ImageNotFound as e:
 
 class DeviceContainer(object):
     """ android device container object """
+
     def __init__(self, serial_no, device_name):
         self.serial_no = serial_no
         self.device_name = device_name
@@ -58,3 +58,12 @@ class DeviceContainerManager(object):
         """ remove all containers """
         for each_serial_no in cls._container_dict:
             cls.remove(each_serial_no)
+
+    @classmethod
+    def query(cls, serial_no) -> str:
+        """ serial no -> device name, else 'null' """
+        logger.info('query device [%s]', serial_no)
+        if serial_no in cls._container_dict:
+            return cls._container_dict[serial_no].device_name
+        # if not found, return str 'null'
+        return 'null'

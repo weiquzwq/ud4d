@@ -5,6 +5,8 @@ from ud4d.detector import UDevDetector
 from ud4d.docker_manager import DeviceContainerManager
 from ud4d.logger import logger
 from ud4d.event import UEventManager, UEvent
+from ud4d.server import app
+from ud4d import config as u_config
 
 
 UD4D_STATUS = False
@@ -39,3 +41,11 @@ def start_ud4d():
 def stop_ud4d():
     global UD4D_STATUS
     UD4D_STATUS = False
+
+
+def start_as_server():
+    start_ud4d()
+    app.run(
+        host='0.0.0.0',
+        port=u_config.DEFAULT_SERVER_PORT,
+    )

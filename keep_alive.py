@@ -1,4 +1,4 @@
-from ud4d.api import start_ud4d
+from ud4d.api import start_as_server
 
 
-start_ud4d()
+start_as_server()
