@@ -37,6 +37,13 @@ Based on python3. Install with pip
 pip install ud4d
 ```
 
+and run it
+
+```shell
+from ud4d.api import start_as_server
+start_as_server()
+```
+
 ### Access
 
 now, you can access your devices by http request:
