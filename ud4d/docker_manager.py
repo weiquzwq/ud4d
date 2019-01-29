@@ -21,7 +21,7 @@ except docker.errors.ImageNotFound as e:
 class DeviceContainer(object):
     """ android device container object """
 
-    def __init__(self, serial_no, device_name):
+    def __init__(self, serial_no: str, device_name: str):
         self.serial_no = serial_no
         self.device_name = device_name
         self.container = None
@@ -48,7 +48,7 @@ class DeviceContainerManager(object):
         device_container.container and logger.info('device container [%s] running', device_container.serial_no)
 
     @classmethod
-    def remove(cls, serial_no):
+    def remove(cls, serial_no: str):
         if serial_no in cls._container_dict:
             if cls._container_dict[serial_no].container is not None:
                 cls._container_dict[serial_no].container.remove(force=True)
@@ -64,7 +64,7 @@ class DeviceContainerManager(object):
             cls.remove(each_serial_no)
 
     @classmethod
-    def query(cls, serial_no) -> str:
+    def query(cls, serial_no: str) -> str:
         """ serial no -> device name, else 'null' """
         logger.info('query device [%s]', serial_no)
         if serial_no in cls._container_dict:

@@ -24,6 +24,7 @@ def safe_ud4d():
 
 
 def start_ud4d():
+    """ start ud4d in a thread, you should call `stop_ud4d` to stop it by yourself. """
     global UD4D_STATUS
     UD4D_STATUS = True
 
@@ -40,11 +41,13 @@ def start_ud4d():
 
 
 def stop_ud4d():
+    """ stop ud4d by changing status flag """
     global UD4D_STATUS
     UD4D_STATUS = False
 
 
 def start_as_server():
+    """ start a server to expose more information """
     start_ud4d()
     app.run(
         host='0.0.0.0',
