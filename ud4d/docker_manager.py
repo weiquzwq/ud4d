@@ -24,16 +24,19 @@ class DeviceContainer(object):
     def __init__(self, serial_no, device_name):
         self.serial_no = serial_no
         self.device_name = device_name
-        self.container = client.containers.run(
-            device_image,
-            detach=True,
-            # container name
-            name='android_device_' + serial_no,
-            # bind devices
-            devices=['{}:{}:rwm'.format(device_name, device_name)],
-            # keep it running
-            tty=True,
-        )
+        self.container = None
+
+        if not u_config.SIMPLE_MODE:
+            self.container = client.containers.run(
+                device_image,
+                detach=True,
+                # container name
+                name='android_device_' + serial_no,
+                # bind devices
+                devices=['{}:{}:rwm'.format(device_name, device_name)],
+                # keep it running
+                tty=True,
+            )
 
 
 class DeviceContainerManager(object):
@@ -47,7 +50,8 @@ class DeviceContainerManager(object):
     @classmethod
     def remove(cls, serial_no):
         if serial_no in cls._container_dict:
-            cls._container_dict[serial_no].container.remove(force=True)
+            if cls._container_dict[serial_no].container is not None:
+                cls._container_dict[serial_no].container.remove(force=True)
             del cls._container_dict[serial_no]
             logger.info('device container [%s] removed', serial_no)
         else:
