@@ -45,15 +45,15 @@ class DeviceContainerManager(object):
     @classmethod
     def add(cls, device_container: DeviceContainer):
         cls._container_dict[device_container.serial_no] = device_container
-        logger.info('device container [%s] running', device_container.serial_no)
+        device_container.container and logger.info('device container [%s] running', device_container.serial_no)
 
     @classmethod
     def remove(cls, serial_no):
         if serial_no in cls._container_dict:
             if cls._container_dict[serial_no].container is not None:
                 cls._container_dict[serial_no].container.remove(force=True)
+                logger.info('device container [%s] removed', serial_no)
             del cls._container_dict[serial_no]
-            logger.info('device container [%s] removed', serial_no)
         else:
             logger.warn('device container [%s] not existed', serial_no)
 
