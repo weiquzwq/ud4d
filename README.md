@@ -8,11 +8,13 @@ USB Device Detector for Docker usage. Support Linux only because of [cgroups](ht
 
 - Build for sharing devices among docker containers.
 - Split `/dev/bus/usb` into pieces, for better control, in different container.
-- By `volumes-from`, other (upper) container can operate android devices via these containers.
+- By http-request (recommend) or <del>`link`/`volumes-from`(i do not really know if it works)</del>, other (upper) container can operate android devices via these containers.
 
 ## Usage
 
-### Docker
+### Installation
+
+#### Docker
 
 Need 2 images.
 
@@ -27,7 +29,7 @@ and, run your ud4d :)
 sudo docker run -d --privileged -v /dev/bus/usb:/dev/bus/usb -v /usr/bin/docker:/bin/docker -v /var/run/docker.sock:/var/run/docker.sock -v /run/udev:/run/udev:ro --net=host --name ud4d_detector williamfzc/ud4d:0.1.0
 ```
 
-### Normal way
+#### Normal way
 
 Based on python3. Install with pip
 
@@ -35,17 +37,18 @@ Based on python3. Install with pip
 pip install ud4d
 ```
 
-run it :)
+### Access
 
-```python
-from ud4d.api import start_ud4d, stop_ud4d
-import time
+now, you can access your devices by http request:
 
+```shell
+curl http://127.0.0.1:9410/api/device?serial_no=123456F
 
-if __name__ == '__main__':
-    start_ud4d()
-    time.sleep(20)
-    stop_ud4d()
+# if existed, return something like
+/dev/bus/usb/001/009
+
+# else
+null
 ```
 
 ## How it works
