@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='ud4d',
-    version='0.1.1',
+    version='0.1.2',
     description='USB Device Detector for Docker usage. Support Linux only.',
     author='williamfzc',
     author_email='fengzc@vip.qq.com',
