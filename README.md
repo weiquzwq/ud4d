@@ -2,6 +2,8 @@
 
 USB Device Detector for Docker usage. Support Linux only because of [cgroups](https://en.wikipedia.org/wiki/Cgroups).
 
+[中文文档](README_CN.md)
+
 ## Why
 
 ![adb](pics/adb.svg)
