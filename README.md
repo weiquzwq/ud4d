@@ -16,11 +16,10 @@ USB Device Detector for Docker usage. Support Linux only because of [cgroups](ht
 
 #### Docker
 
-Need 2 images.
+All you need: 1 image.
 
 ```shell
 sudo docker pull williamfzc/ud4d:0.1.3
-sudo docker pull williamfzc/adb_tester:0.1.0
 ```
 
 and, run your ud4d :)
